@@ -1,0 +1,54 @@
+class Solution:
+    def shipWithinDays(self, weights: List[int], days: int) -> int:
+        left = max(weights)
+        sum = 0
+        for num in weights:
+            sum += num
+        right = sum
+
+        def helper(cap):
+            valid = 0
+            right = 0
+            cursum = 0
+            covered = 0
+
+            while right < len(weights) :                
+                if cursum + weights[right] <= cap:
+                    cursum += weights[right]
+                    covered+=1
+                    # print(cursum)
+                elif cursum+ weights[right] > cap:   
+                    valid+=1                 
+                    cursum = 0
+                    cursum+= weights[right]
+                    covered+=1
+                    # print(cursum)       
+                right+=1
+
+            valid = valid+1
+            
+            # print(f"The total covered is {covered}")
+            # print(f"The total valid is {valid}")
+                
+            
+            if covered == len(weights) and valid <= days:
+                return True
+            return False
+
+
+            
+
+        while left <= right:
+            mid = (left+right)//2
+
+            if helper(mid):
+                right = mid-1
+            else:
+                left = mid+1
+        return left
+            
+
+
+
+
+        
